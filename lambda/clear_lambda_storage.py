@@ -210,7 +210,7 @@ def main():
     parser.add_argument(
         '--num-to-keep',
         type=int,
-        default=2,
+        default=10,
         help=(
             'Number of latest versions to keep. Older versions will be deleted. Optional '
             '(default: 2).'
