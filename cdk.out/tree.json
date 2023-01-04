@@ -1,0 +1,2397 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "clearlambdastoragepipelinestack": {
+        "id": "clearlambdastoragepipelinestack",
+        "path": "clearlambdastoragepipelinestack",
+        "children": {
+          "clear_lambda_storage_repo": {
+            "id": "clear_lambda_storage_repo",
+            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_repo",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_repo/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CodeCommit::Repository",
+                  "aws:cdk:cloudformation:props": {
+                    "repositoryName": "clear_lambda_storage"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_codecommit.CfnRepository",
+                  "version": "2.54.0"
+                }
+              },
+              "clearlambdastoragepipelinestackclearlambdastoragepipelinePipeline625A2C11EventRule": {
+                "id": "clearlambdastoragepipelinestackclearlambdastoragepipelinePipeline625A2C11EventRule",
+                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_repo/clearlambdastoragepipelinestackclearlambdastoragepipelinePipeline625A2C11EventRule",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_repo/clearlambdastoragepipelinestackclearlambdastoragepipelinePipeline625A2C11EventRule/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                      "aws:cdk:cloudformation:props": {
+                        "eventPattern": {
+                          "source": [
+                            "aws.codecommit"
+                          ],
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "clearlambdastoragerepoAEBF3940",
+                                "Arn"
+                              ]
+                            }
+                          ],
+                          "detail-type": [
+                            "CodeCommit Repository State Change"
+                          ],
+                          "detail": {
+                            "event": [
+                              "referenceCreated",
+                              "referenceUpdated"
+                            ],
+                            "referenceName": [
+                              "master"
+                            ]
+                          }
+                        },
+                        "state": "ENABLED",
+                        "targets": [
+                          {
+                            "id": "Target0",
+                            "arn": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":codepipeline:",
+                                  {
+                                    "Ref": "AWS::Region"
+                                  },
+                                  ":",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":",
+                                  {
+                                    "Ref": "clearlambdastoragepipelinePipeline69AB9E8B"
+                                  }
+                                ]
+                              ]
+                            },
+                            "roleArn": {
+                              "Fn::GetAtt": [
+                                "clearlambdastoragepipelinePipelineEventsRole09F1581E",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                      "version": "2.54.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.Rule",
+                  "version": "2.54.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_codecommit.Repository",
+              "version": "2.54.0"
+            }
+          },
+          "clear_lambda_storage_pipeline": {
+            "id": "clear_lambda_storage_pipeline",
+            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline",
+            "children": {
+              "Pipeline": {
+                "id": "Pipeline",
+                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline",
+                "children": {
+                  "ArtifactsBucket": {
+                    "id": "ArtifactsBucket",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/ArtifactsBucket",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/ArtifactsBucket/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                          "aws:cdk:cloudformation:props": {
+                            "bucketEncryption": {
+                              "serverSideEncryptionConfiguration": [
+                                {
+                                  "serverSideEncryptionByDefault": {
+                                    "sseAlgorithm": "aws:kms"
+                                  }
+                                }
+                              ]
+                            },
+                            "publicAccessBlockConfiguration": {
+                              "blockPublicAcls": true,
+                              "blockPublicPolicy": true,
+                              "ignorePublicAcls": true,
+                              "restrictPublicBuckets": true
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "Policy": {
+                        "id": "Policy",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/ArtifactsBucket/Policy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/ArtifactsBucket/Policy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                              "aws:cdk:cloudformation:props": {
+                                "bucket": {
+                                  "Ref": "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A"
+                                },
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "s3:*",
+                                      "Condition": {
+                                        "Bool": {
+                                          "aws:SecureTransport": "false"
+                                        }
+                                      },
+                                      "Effect": "Deny",
+                                      "Principal": {
+                                        "AWS": "*"
+                                      },
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Action": [
+                                        "s3:GetBucket*",
+                                        "s3:GetObject*",
+                                        "s3:List*"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "AWS": {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":iam::",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              ":role/cdk-hnb659fds-deploy-role-",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              "-",
+                                              {
+                                                "Ref": "AWS::Region"
+                                              }
+                                            ]
+                                          ]
+                                        }
+                                      },
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.Bucket",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "Role": {
+                    "id": "Role",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "codepipeline.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Role/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Role/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "s3:Abort*",
+                                        "s3:DeleteObject*",
+                                        "s3:GetBucket*",
+                                        "s3:GetObject*",
+                                        "s3:List*",
+                                        "s3:PutObject",
+                                        "s3:PutObjectLegalHold",
+                                        "s3:PutObjectRetention",
+                                        "s3:PutObjectTagging",
+                                        "s3:PutObjectVersionTagging"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "clearlambdastoragepipelineCodeBuildActionRole46830640",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::GetAtt": [
+                                            "clearlambdastoragepipelinePipelineSourceCodeCommitCodePipelineActionRole3D0C9187",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":iam::",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              ":role/cdk-hnb659fds-deploy-role-",
+                                              {
+                                                "Ref": "AWS::AccountId"
+                                              },
+                                              "-",
+                                              {
+                                                "Ref": "AWS::Region"
+                                              }
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "clearlambdastoragepipelinePipelineRoleDefaultPolicy0ACF5C5A",
+                                "roles": [
+                                  {
+                                    "Ref": "clearlambdastoragepipelinePipelineRoleBC418FD5"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::CodePipeline::Pipeline",
+                      "aws:cdk:cloudformation:props": {
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "clearlambdastoragepipelinePipelineRoleBC418FD5",
+                            "Arn"
+                          ]
+                        },
+                        "stages": [
+                          {
+                            "name": "Source",
+                            "actions": [
+                              {
+                                "name": {
+                                  "Fn::GetAtt": [
+                                    "clearlambdastoragerepoAEBF3940",
+                                    "Name"
+                                  ]
+                                },
+                                "outputArtifacts": [
+                                  {
+                                    "name": "c804ed5a9d69b292cb1787f2e106b91e76ae44c2e7_Source"
+                                  }
+                                ],
+                                "actionTypeId": {
+                                  "category": "Source",
+                                  "version": "1",
+                                  "owner": "AWS",
+                                  "provider": "CodeCommit"
+                                },
+                                "configuration": {
+                                  "RepositoryName": {
+                                    "Fn::GetAtt": [
+                                      "clearlambdastoragerepoAEBF3940",
+                                      "Name"
+                                    ]
+                                  },
+                                  "BranchName": "master",
+                                  "PollForSourceChanges": false
+                                },
+                                "runOrder": 1,
+                                "roleArn": {
+                                  "Fn::GetAtt": [
+                                    "clearlambdastoragepipelinePipelineSourceCodeCommitCodePipelineActionRole3D0C9187",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Build",
+                            "actions": [
+                              {
+                                "name": "synth",
+                                "inputArtifacts": [
+                                  {
+                                    "name": "c804ed5a9d69b292cb1787f2e106b91e76ae44c2e7_Source"
+                                  }
+                                ],
+                                "outputArtifacts": [
+                                  {
+                                    "name": "synth_Output"
+                                  }
+                                ],
+                                "actionTypeId": {
+                                  "category": "Build",
+                                  "version": "1",
+                                  "owner": "AWS",
+                                  "provider": "CodeBuild"
+                                },
+                                "configuration": {
+                                  "ProjectName": {
+                                    "Ref": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProject55C9F7B9"
+                                  },
+                                  "EnvironmentVariables": "[{\"name\":\"_PROJECT_CONFIG_HASH\",\"type\":\"PLAINTEXT\",\"value\":\"dc0c8e048a15481e2d73386141088a5e22fdc6e2204ba66c251adaefe555a0b9\"}]"
+                                },
+                                "runOrder": 1,
+                                "roleArn": {
+                                  "Fn::GetAtt": [
+                                    "clearlambdastoragepipelineCodeBuildActionRole46830640",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "name": "UpdatePipeline",
+                            "actions": [
+                              {
+                                "name": "SelfMutate",
+                                "inputArtifacts": [
+                                  {
+                                    "name": "synth_Output"
+                                  }
+                                ],
+                                "actionTypeId": {
+                                  "category": "Build",
+                                  "version": "1",
+                                  "owner": "AWS",
+                                  "provider": "CodeBuild"
+                                },
+                                "configuration": {
+                                  "ProjectName": {
+                                    "Ref": "clearlambdastoragepipelineUpdatePipelineSelfMutation48C8BC84"
+                                  },
+                                  "EnvironmentVariables": "[{\"name\":\"_PROJECT_CONFIG_HASH\",\"type\":\"PLAINTEXT\",\"value\":\"e732c96bcec3460914d773eaf52d4847a0970767e2e7845a8a305b1c6244ffca\"}]"
+                                },
+                                "runOrder": 1,
+                                "roleArn": {
+                                  "Fn::GetAtt": [
+                                    "clearlambdastoragepipelineCodeBuildActionRole46830640",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Assets",
+                            "actions": [
+                              {
+                                "name": "FileAsset1",
+                                "inputArtifacts": [
+                                  {
+                                    "name": "synth_Output"
+                                  }
+                                ],
+                                "actionTypeId": {
+                                  "category": "Build",
+                                  "version": "1",
+                                  "owner": "AWS",
+                                  "provider": "CodeBuild"
+                                },
+                                "configuration": {
+                                  "ProjectName": {
+                                    "Ref": "clearlambdastoragepipelineAssetsFileAsset13CA072FD"
+                                  }
+                                },
+                                "runOrder": 1,
+                                "roleArn": {
+                                  "Fn::GetAtt": [
+                                    "clearlambdastoragepipelineCodeBuildActionRole46830640",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "name": "deploy",
+                            "actions": [
+                              {
+                                "name": "Prepare",
+                                "inputArtifacts": [
+                                  {
+                                    "name": "synth_Output"
+                                  }
+                                ],
+                                "actionTypeId": {
+                                  "category": "Deploy",
+                                  "version": "1",
+                                  "owner": "AWS",
+                                  "provider": "CloudFormation"
+                                },
+                                "configuration": {
+                                  "StackName": "deploy-clearlambdastoragestack",
+                                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+                                  "RoleArn": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::",
+                                        {
+                                          "Ref": "AWS::AccountId"
+                                        },
+                                        ":role/cdk-hnb659fds-cfn-exec-role-",
+                                        {
+                                          "Ref": "AWS::AccountId"
+                                        },
+                                        "-",
+                                        {
+                                          "Ref": "AWS::Region"
+                                        }
+                                      ]
+                                    ]
+                                  },
+                                  "ActionMode": "CHANGE_SET_REPLACE",
+                                  "ChangeSetName": "PipelineChange",
+                                  "TemplatePath": "synth_Output::assembly-clearlambdastoragepipelinestack-deploy/clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E.template.json"
+                                },
+                                "runOrder": 1,
+                                "roleArn": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:",
+                                      {
+                                        "Ref": "AWS::Partition"
+                                      },
+                                      ":iam::",
+                                      {
+                                        "Ref": "AWS::AccountId"
+                                      },
+                                      ":role/cdk-hnb659fds-deploy-role-",
+                                      {
+                                        "Ref": "AWS::AccountId"
+                                      },
+                                      "-",
+                                      {
+                                        "Ref": "AWS::Region"
+                                      }
+                                    ]
+                                  ]
+                                }
+                              },
+                              {
+                                "name": "Deploy",
+                                "actionTypeId": {
+                                  "category": "Deploy",
+                                  "version": "1",
+                                  "owner": "AWS",
+                                  "provider": "CloudFormation"
+                                },
+                                "configuration": {
+                                  "StackName": "deploy-clearlambdastoragestack",
+                                  "ActionMode": "CHANGE_SET_EXECUTE",
+                                  "ChangeSetName": "PipelineChange"
+                                },
+                                "runOrder": 2,
+                                "roleArn": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:",
+                                      {
+                                        "Ref": "AWS::Partition"
+                                      },
+                                      ":iam::",
+                                      {
+                                        "Ref": "AWS::AccountId"
+                                      },
+                                      ":role/cdk-hnb659fds-deploy-role-",
+                                      {
+                                        "Ref": "AWS::AccountId"
+                                      },
+                                      "-",
+                                      {
+                                        "Ref": "AWS::Region"
+                                      }
+                                    ]
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "artifactStore": {
+                          "type": "S3",
+                          "location": {
+                            "Ref": "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A"
+                          }
+                        },
+                        "restartExecutionOnUpdate": true
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_codepipeline.CfnPipeline",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "Source": {
+                    "id": "Source",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source",
+                    "children": {
+                      "CodeCommit": {
+                        "id": "CodeCommit",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source/CodeCommit",
+                        "children": {
+                          "CodePipelineActionRole": {
+                            "id": "CodePipelineActionRole",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source/CodeCommit/CodePipelineActionRole",
+                            "children": {
+                              "ImportCodePipelineActionRole": {
+                                "id": "ImportCodePipelineActionRole",
+                                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source/CodeCommit/CodePipelineActionRole/ImportCodePipelineActionRole",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.Resource",
+                                  "version": "2.54.0"
+                                }
+                              },
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source/CodeCommit/CodePipelineActionRole/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                                  "aws:cdk:cloudformation:props": {
+                                    "assumeRolePolicyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": "sts:AssumeRole",
+                                          "Effect": "Allow",
+                                          "Principal": {
+                                            "AWS": {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  "arn:",
+                                                  {
+                                                    "Ref": "AWS::Partition"
+                                                  },
+                                                  ":iam::",
+                                                  {
+                                                    "Ref": "AWS::AccountId"
+                                                  },
+                                                  ":root"
+                                                ]
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                                  "version": "2.54.0"
+                                }
+                              },
+                              "DefaultPolicy": {
+                                "id": "DefaultPolicy",
+                                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy",
+                                "children": {
+                                  "Resource": {
+                                    "id": "Resource",
+                                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource",
+                                    "attributes": {
+                                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                      "aws:cdk:cloudformation:props": {
+                                        "policyDocument": {
+                                          "Statement": [
+                                            {
+                                              "Action": [
+                                                "s3:Abort*",
+                                                "s3:DeleteObject*",
+                                                "s3:GetBucket*",
+                                                "s3:GetObject*",
+                                                "s3:List*",
+                                                "s3:PutObject",
+                                                "s3:PutObjectLegalHold",
+                                                "s3:PutObjectRetention",
+                                                "s3:PutObjectTagging",
+                                                "s3:PutObjectVersionTagging"
+                                              ],
+                                              "Effect": "Allow",
+                                              "Resource": [
+                                                {
+                                                  "Fn::GetAtt": [
+                                                    "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                    "Arn"
+                                                  ]
+                                                },
+                                                {
+                                                  "Fn::Join": [
+                                                    "",
+                                                    [
+                                                      {
+                                                        "Fn::GetAtt": [
+                                                          "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                          "Arn"
+                                                        ]
+                                                      },
+                                                      "/*"
+                                                    ]
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "Action": [
+                                                "codecommit:CancelUploadArchive",
+                                                "codecommit:GetBranch",
+                                                "codecommit:GetCommit",
+                                                "codecommit:GetUploadArchiveStatus",
+                                                "codecommit:UploadArchive"
+                                              ],
+                                              "Effect": "Allow",
+                                              "Resource": {
+                                                "Fn::GetAtt": [
+                                                  "clearlambdastoragerepoAEBF3940",
+                                                  "Arn"
+                                                ]
+                                              }
+                                            }
+                                          ],
+                                          "Version": "2012-10-17"
+                                        },
+                                        "policyName": "clearlambdastoragepipelinePipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyA9586611",
+                                        "roles": [
+                                          {
+                                            "Ref": "clearlambdastoragepipelinePipelineSourceCodeCommitCodePipelineActionRole3D0C9187"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                      "version": "2.54.0"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                                  "version": "2.54.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Role",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.202"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.1.202"
+                    }
+                  },
+                  "EventsRole": {
+                    "id": "EventsRole",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/EventsRole",
+                    "children": {
+                      "ImportEventsRole": {
+                        "id": "ImportEventsRole",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/EventsRole/ImportEventsRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/EventsRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "events.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/EventsRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/EventsRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "codepipeline:StartPipelineExecution",
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":codepipeline:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "clearlambdastoragepipelinePipeline69AB9E8B"
+                                            }
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "clearlambdastoragepipelinePipelineEventsRoleDefaultPolicy54BDAB44",
+                                "roles": [
+                                  {
+                                    "Ref": "clearlambdastoragepipelinePipelineEventsRole09F1581E"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "Build": {
+                    "id": "Build",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build",
+                    "children": {
+                      "synth": {
+                        "id": "synth",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth",
+                        "children": {
+                          "CdkBuildProject": {
+                            "id": "CdkBuildProject",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject",
+                            "children": {
+                              "Role": {
+                                "id": "Role",
+                                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Role",
+                                "children": {
+                                  "ImportRole": {
+                                    "id": "ImportRole",
+                                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Role/ImportRole",
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.Resource",
+                                      "version": "2.54.0"
+                                    }
+                                  },
+                                  "Resource": {
+                                    "id": "Resource",
+                                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Role/Resource",
+                                    "attributes": {
+                                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                                      "aws:cdk:cloudformation:props": {
+                                        "assumeRolePolicyDocument": {
+                                          "Statement": [
+                                            {
+                                              "Action": "sts:AssumeRole",
+                                              "Effect": "Allow",
+                                              "Principal": {
+                                                "Service": "codebuild.amazonaws.com"
+                                              }
+                                            }
+                                          ],
+                                          "Version": "2012-10-17"
+                                        }
+                                      }
+                                    },
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                                      "version": "2.54.0"
+                                    }
+                                  },
+                                  "DefaultPolicy": {
+                                    "id": "DefaultPolicy",
+                                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Role/DefaultPolicy",
+                                    "children": {
+                                      "Resource": {
+                                        "id": "Resource",
+                                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Role/DefaultPolicy/Resource",
+                                        "attributes": {
+                                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                          "aws:cdk:cloudformation:props": {
+                                            "policyDocument": {
+                                              "Statement": [
+                                                {
+                                                  "Action": [
+                                                    "logs:CreateLogGroup",
+                                                    "logs:CreateLogStream",
+                                                    "logs:PutLogEvents"
+                                                  ],
+                                                  "Effect": "Allow",
+                                                  "Resource": [
+                                                    {
+                                                      "Fn::Join": [
+                                                        "",
+                                                        [
+                                                          "arn:",
+                                                          {
+                                                            "Ref": "AWS::Partition"
+                                                          },
+                                                          ":logs:",
+                                                          {
+                                                            "Ref": "AWS::Region"
+                                                          },
+                                                          ":",
+                                                          {
+                                                            "Ref": "AWS::AccountId"
+                                                          },
+                                                          ":log-group:/aws/codebuild/",
+                                                          {
+                                                            "Ref": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProject55C9F7B9"
+                                                          },
+                                                          ":*"
+                                                        ]
+                                                      ]
+                                                    },
+                                                    {
+                                                      "Fn::Join": [
+                                                        "",
+                                                        [
+                                                          "arn:",
+                                                          {
+                                                            "Ref": "AWS::Partition"
+                                                          },
+                                                          ":logs:",
+                                                          {
+                                                            "Ref": "AWS::Region"
+                                                          },
+                                                          ":",
+                                                          {
+                                                            "Ref": "AWS::AccountId"
+                                                          },
+                                                          ":log-group:/aws/codebuild/",
+                                                          {
+                                                            "Ref": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProject55C9F7B9"
+                                                          }
+                                                        ]
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "Action": [
+                                                    "codebuild:BatchPutCodeCoverages",
+                                                    "codebuild:BatchPutTestCases",
+                                                    "codebuild:CreateReport",
+                                                    "codebuild:CreateReportGroup",
+                                                    "codebuild:UpdateReport"
+                                                  ],
+                                                  "Effect": "Allow",
+                                                  "Resource": {
+                                                    "Fn::Join": [
+                                                      "",
+                                                      [
+                                                        "arn:",
+                                                        {
+                                                          "Ref": "AWS::Partition"
+                                                        },
+                                                        ":codebuild:",
+                                                        {
+                                                          "Ref": "AWS::Region"
+                                                        },
+                                                        ":",
+                                                        {
+                                                          "Ref": "AWS::AccountId"
+                                                        },
+                                                        ":report-group/",
+                                                        {
+                                                          "Ref": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProject55C9F7B9"
+                                                        },
+                                                        "-*"
+                                                      ]
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  "Action": [
+                                                    "s3:Abort*",
+                                                    "s3:DeleteObject*",
+                                                    "s3:GetBucket*",
+                                                    "s3:GetObject*",
+                                                    "s3:List*",
+                                                    "s3:PutObject",
+                                                    "s3:PutObjectLegalHold",
+                                                    "s3:PutObjectRetention",
+                                                    "s3:PutObjectTagging",
+                                                    "s3:PutObjectVersionTagging"
+                                                  ],
+                                                  "Effect": "Allow",
+                                                  "Resource": [
+                                                    {
+                                                      "Fn::GetAtt": [
+                                                        "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                        "Arn"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "Fn::Join": [
+                                                        "",
+                                                        [
+                                                          {
+                                                            "Fn::GetAtt": [
+                                                              "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                              "Arn"
+                                                            ]
+                                                          },
+                                                          "/*"
+                                                        ]
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ],
+                                              "Version": "2012-10-17"
+                                            },
+                                            "policyName": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProjectRoleDefaultPolicy1CD48605",
+                                            "roles": [
+                                              {
+                                                "Ref": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProjectRoleB0616F93"
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        "constructInfo": {
+                                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                          "version": "2.54.0"
+                                        }
+                                      }
+                                    },
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                                      "version": "2.54.0"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                                  "version": "2.54.0"
+                                }
+                              },
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
+                                  "aws:cdk:cloudformation:props": {
+                                    "artifacts": {
+                                      "type": "CODEPIPELINE"
+                                    },
+                                    "environment": {
+                                      "type": "LINUX_CONTAINER",
+                                      "image": "aws/codebuild/standard:5.0",
+                                      "imagePullCredentialsType": "CODEBUILD",
+                                      "privilegedMode": false,
+                                      "computeType": "BUILD_GENERAL1_SMALL"
+                                    },
+                                    "serviceRole": {
+                                      "Fn::GetAtt": [
+                                        "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProjectRoleB0616F93",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "source": {
+                                      "type": "CODEPIPELINE",
+                                      "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"npm install -g aws-cdk\",\n        \"pip install -r requirements.txt\",\n        \"cdk synth\"\n      ]\n    }\n  },\n  \"artifacts\": {\n    \"base-directory\": \"cdk.out\",\n    \"files\": \"**/*\"\n  }\n}"
+                                    },
+                                    "cache": {
+                                      "type": "NO_CACHE"
+                                    },
+                                    "description": "Pipeline step clearlambdastoragepipelinestack/Pipeline/Build/synth",
+                                    "encryptionKey": "alias/aws/s3"
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_codebuild.CfnProject",
+                                  "version": "2.54.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_codebuild.PipelineProject",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.202"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.1.202"
+                    }
+                  },
+                  "UpdatePipeline": {
+                    "id": "UpdatePipeline",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/UpdatePipeline",
+                    "children": {
+                      "SelfMutate": {
+                        "id": "SelfMutate",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/UpdatePipeline/SelfMutate",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.202"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.1.202"
+                    }
+                  },
+                  "Assets": {
+                    "id": "Assets",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Assets",
+                    "children": {
+                      "FileAsset1": {
+                        "id": "FileAsset1",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Assets/FileAsset1",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.202"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.1.202"
+                    }
+                  },
+                  "deploy": {
+                    "id": "deploy",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/deploy",
+                    "children": {
+                      "Prepare": {
+                        "id": "Prepare",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/deploy/Prepare",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.202"
+                        }
+                      },
+                      "Deploy": {
+                        "id": "Deploy",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/deploy/Deploy",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.202"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.1.202"
+                    }
+                  },
+                  "MutableRolearn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}": {
+                    "id": "MutableRolearn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/MutableRolearn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "arn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}": {
+                    "id": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/arn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+                    "children": {
+                      "8389e75f-0810-4838-bf64-d6f85a95cf83": {
+                        "id": "8389e75f-0810-4838-bf64-d6f85a95cf83",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/arn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}/8389e75f-0810-4838-bf64-d6f85a95cf83",
+                        "constructInfo": {
+                          "fqn": "constructs.Construct",
+                          "version": "10.1.202"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "MutableRolearn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}": {
+                    "id": "MutableRolearn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/MutableRolearn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "arn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}": {
+                    "id": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/arn:${AWS::Partition}:iam::${AWS::AccountId}:role--cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.54.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_codepipeline.Pipeline",
+                  "version": "2.54.0"
+                }
+              },
+              "CodeBuildActionRole": {
+                "id": "CodeBuildActionRole",
+                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/CodeBuildActionRole",
+                "children": {
+                  "ImportCodeBuildActionRole": {
+                    "id": "ImportCodeBuildActionRole",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/CodeBuildActionRole/ImportCodeBuildActionRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/CodeBuildActionRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Condition": {
+                                "Bool": {
+                                  "aws:ViaAWSService": "codepipeline.amazonaws.com"
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:",
+                                      {
+                                        "Ref": "AWS::Partition"
+                                      },
+                                      ":iam::",
+                                      {
+                                        "Ref": "AWS::AccountId"
+                                      },
+                                      ":root"
+                                    ]
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/CodeBuildActionRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/CodeBuildActionRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "codebuild:BatchGetBuilds",
+                                    "codebuild:StartBuild",
+                                    "codebuild:StopBuild"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "clearlambdastoragepipelineAssetsFileAsset13CA072FD",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::GetAtt": [
+                                        "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProject55C9F7B9",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::GetAtt": [
+                                        "clearlambdastoragepipelineUpdatePipelineSelfMutation48C8BC84",
+                                        "Arn"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "clearlambdastoragepipelineCodeBuildActionRoleDefaultPolicyC561E289",
+                            "roles": [
+                              {
+                                "Ref": "clearlambdastoragepipelineCodeBuildActionRole46830640"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.54.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.54.0"
+                }
+              },
+              "UpdatePipeline": {
+                "id": "UpdatePipeline",
+                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline",
+                "children": {
+                  "SelfMutation": {
+                    "id": "SelfMutation",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation",
+                    "children": {
+                      "Role": {
+                        "id": "Role",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Role",
+                        "children": {
+                          "ImportRole": {
+                            "id": "ImportRole",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Role/ImportRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.54.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Role/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "codebuild.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.54.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": [
+                                            "logs:CreateLogGroup",
+                                            "logs:CreateLogStream",
+                                            "logs:PutLogEvents"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  "arn:",
+                                                  {
+                                                    "Ref": "AWS::Partition"
+                                                  },
+                                                  ":logs:",
+                                                  {
+                                                    "Ref": "AWS::Region"
+                                                  },
+                                                  ":",
+                                                  {
+                                                    "Ref": "AWS::AccountId"
+                                                  },
+                                                  ":log-group:/aws/codebuild/",
+                                                  {
+                                                    "Ref": "clearlambdastoragepipelineUpdatePipelineSelfMutation48C8BC84"
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  "arn:",
+                                                  {
+                                                    "Ref": "AWS::Partition"
+                                                  },
+                                                  ":logs:",
+                                                  {
+                                                    "Ref": "AWS::Region"
+                                                  },
+                                                  ":",
+                                                  {
+                                                    "Ref": "AWS::AccountId"
+                                                  },
+                                                  ":log-group:/aws/codebuild/",
+                                                  {
+                                                    "Ref": "clearlambdastoragepipelineUpdatePipelineSelfMutation48C8BC84"
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Action": [
+                                            "codebuild:BatchPutCodeCoverages",
+                                            "codebuild:BatchPutTestCases",
+                                            "codebuild:CreateReport",
+                                            "codebuild:CreateReportGroup",
+                                            "codebuild:UpdateReport"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": {
+                                            "Fn::Join": [
+                                              "",
+                                              [
+                                                "arn:",
+                                                {
+                                                  "Ref": "AWS::Partition"
+                                                },
+                                                ":codebuild:",
+                                                {
+                                                  "Ref": "AWS::Region"
+                                                },
+                                                ":",
+                                                {
+                                                  "Ref": "AWS::AccountId"
+                                                },
+                                                ":report-group/",
+                                                {
+                                                  "Ref": "clearlambdastoragepipelineUpdatePipelineSelfMutation48C8BC84"
+                                                },
+                                                "-*"
+                                              ]
+                                            ]
+                                          }
+                                        },
+                                        {
+                                          "Action": "sts:AssumeRole",
+                                          "Condition": {
+                                            "ForAnyValue:StringEquals": {
+                                              "iam:ResourceTag/aws-cdk:bootstrap-role": [
+                                                "image-publishing",
+                                                "file-publishing",
+                                                "deploy"
+                                              ]
+                                            }
+                                          },
+                                          "Effect": "Allow",
+                                          "Resource": {
+                                            "Fn::Join": [
+                                              "",
+                                              [
+                                                "arn:*:iam::",
+                                                {
+                                                  "Ref": "AWS::AccountId"
+                                                },
+                                                ":role/*"
+                                              ]
+                                            ]
+                                          }
+                                        },
+                                        {
+                                          "Action": [
+                                            "cloudformation:DescribeStacks",
+                                            "s3:ListBucket"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": "*"
+                                        },
+                                        {
+                                          "Action": [
+                                            "s3:GetBucket*",
+                                            "s3:GetObject*",
+                                            "s3:List*"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  "/*"
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "clearlambdastoragepipelineUpdatePipelineSelfMutationRoleDefaultPolicy8E6AADDE",
+                                    "roles": [
+                                      {
+                                        "Ref": "clearlambdastoragepipelineUpdatePipelineSelfMutationRole57753694"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.54.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
+                          "aws:cdk:cloudformation:props": {
+                            "artifacts": {
+                              "type": "CODEPIPELINE"
+                            },
+                            "environment": {
+                              "type": "LINUX_CONTAINER",
+                              "image": "aws/codebuild/standard:5.0",
+                              "imagePullCredentialsType": "CODEBUILD",
+                              "privilegedMode": false,
+                              "computeType": "BUILD_GENERAL1_SMALL"
+                            },
+                            "serviceRole": {
+                              "Fn::GetAtt": [
+                                "clearlambdastoragepipelineUpdatePipelineSelfMutationRole57753694",
+                                "Arn"
+                              ]
+                            },
+                            "source": {
+                              "type": "CODEPIPELINE",
+                              "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy clearlambdastoragepipelinestack --require-approval=never --verbose\"\n      ]\n    }\n  }\n}"
+                            },
+                            "cache": {
+                              "type": "NO_CACHE"
+                            },
+                            "description": "Pipeline step clearlambdastoragepipelinestack/Pipeline/UpdatePipeline/SelfMutate",
+                            "encryptionKey": "alias/aws/s3"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_codebuild.CfnProject",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_codebuild.PipelineProject",
+                      "version": "2.54.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.1.202"
+                }
+              },
+              "Assets": {
+                "id": "Assets",
+                "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets",
+                "children": {
+                  "FileRole": {
+                    "id": "FileRole",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileRole",
+                    "children": {
+                      "ImportFileRole": {
+                        "id": "ImportFileRole",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileRole/ImportFileRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "AWS": {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":iam::",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":root"
+                                        ]
+                                      ]
+                                    },
+                                    "Service": "codebuild.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "logs:CreateLogGroup",
+                                        "logs:CreateLogStream",
+                                        "logs:PutLogEvents"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":logs:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":log-group:/aws/codebuild/*"
+                                          ]
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "Action": [
+                                        "codebuild:BatchPutCodeCoverages",
+                                        "codebuild:BatchPutTestCases",
+                                        "codebuild:CreateReport",
+                                        "codebuild:CreateReportGroup",
+                                        "codebuild:UpdateReport"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":codebuild:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":report-group/*"
+                                          ]
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "Action": [
+                                        "codebuild:BatchGetBuilds",
+                                        "codebuild:StartBuild",
+                                        "codebuild:StopBuild"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Sub": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+                                      }
+                                    },
+                                    {
+                                      "Action": [
+                                        "s3:GetBucket*",
+                                        "s3:GetObject*",
+                                        "s3:List*"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "clearlambdastoragepipelineAssetsFileRoleDefaultPolicyBB38579F",
+                                "roles": [
+                                  {
+                                    "Ref": "clearlambdastoragepipelineAssetsFileRoleA0B3F9E0"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "FileAsset1": {
+                    "id": "FileAsset1",
+                    "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileAsset1",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileAsset1/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
+                          "aws:cdk:cloudformation:props": {
+                            "artifacts": {
+                              "type": "CODEPIPELINE"
+                            },
+                            "environment": {
+                              "type": "LINUX_CONTAINER",
+                              "image": "aws/codebuild/standard:5.0",
+                              "imagePullCredentialsType": "CODEBUILD",
+                              "privilegedMode": false,
+                              "computeType": "BUILD_GENERAL1_SMALL"
+                            },
+                            "serviceRole": {
+                              "Fn::GetAtt": [
+                                "clearlambdastoragepipelineAssetsFileRoleA0B3F9E0",
+                                "Arn"
+                              ]
+                            },
+                            "source": {
+                              "type": "CODEPIPELINE",
+                              "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-clearlambdastoragepipelinestack-deploy/clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E.assets.json\\\" --verbose publish \\\"4a99c2104b13947a079b7eff51ead09332039b29440e3fce11193fda4c2fb763:current_account-current_region\\\"\"\n      ]\n    }\n  }\n}"
+                            },
+                            "cache": {
+                              "type": "NO_CACHE"
+                            },
+                            "description": "Pipeline step clearlambdastoragepipelinestack/Pipeline/Assets/FileAsset1",
+                            "encryptionKey": "alias/aws/s3"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_codebuild.CfnProject",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_codebuild.PipelineProject",
+                      "version": "2.54.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.1.202"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.pipelines.CodePipeline",
+              "version": "2.54.0"
+            }
+          },
+          "deploy": {
+            "id": "deploy",
+            "path": "clearlambdastoragepipelinestack/deploy",
+            "children": {
+              "clearlambdastoragestack": {
+                "id": "clearlambdastoragestack",
+                "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack",
+                "children": {
+                  "clear_lambda_storage_handler": {
+                    "id": "clear_lambda_storage_handler",
+                    "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler",
+                    "children": {
+                      "ServiceRole": {
+                        "id": "ServiceRole",
+                        "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/ServiceRole",
+                        "children": {
+                          "ImportServiceRole": {
+                            "id": "ImportServiceRole",
+                            "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/ServiceRole/ImportServiceRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.54.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/ServiceRole/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "lambda.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "managedPolicyArns": [
+                                  {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.54.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/ServiceRole/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/ServiceRole/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": [
+                                            "lambda:DeleteFunction",
+                                            "lambda:ListFunctions",
+                                            "lambda:ListVersionsByFunction"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": "*"
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "clearlambdastoragehandlerServiceRoleDefaultPolicyBCFC6CBC",
+                                    "roles": [
+                                      {
+                                        "Ref": "clearlambdastoragehandlerServiceRole074CAA48"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.54.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "Code": {
+                        "id": "Code",
+                        "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/Code",
+                        "children": {
+                          "Stage": {
+                            "id": "Stage",
+                            "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/Code/Stage",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.AssetStaging",
+                              "version": "2.54.0"
+                            }
+                          },
+                          "AssetBucket": {
+                            "id": "AssetBucket",
+                            "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/Code/AssetBucket",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                              "version": "2.54.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                          "aws:cdk:cloudformation:props": {
+                            "code": {
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
+                              "s3Key": "4a99c2104b13947a079b7eff51ead09332039b29440e3fce11193fda4c2fb763.zip"
+                            },
+                            "role": {
+                              "Fn::GetAtt": [
+                                "clearlambdastoragehandlerServiceRole074CAA48",
+                                "Arn"
+                              ]
+                            },
+                            "handler": "handler.clear_lambda_storage",
+                            "runtime": "python3.9",
+                            "timeout": 120
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.Function",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "clear_lambda_storage_schedulerule": {
+                    "id": "clear_lambda_storage_schedulerule",
+                    "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_schedulerule",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_schedulerule/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                          "aws:cdk:cloudformation:props": {
+                            "scheduleExpression": "cron(0 16 L * ? *)",
+                            "state": "ENABLED",
+                            "targets": [
+                              {
+                                "id": "Target0",
+                                "arn": {
+                                  "Fn::GetAtt": [
+                                    "clearlambdastoragehandlerE004A4A9",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "AllowEventRuleclearlambdastoragepipelinestackdeployclearlambdastoragestackclearlambdastoragehandlerDBBCBFE4": {
+                        "id": "AllowEventRuleclearlambdastoragepipelinestackdeployclearlambdastoragestackclearlambdastoragehandlerDBBCBFE4",
+                        "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_schedulerule/AllowEventRuleclearlambdastoragepipelinestackdeployclearlambdastoragestackclearlambdastoragehandlerDBBCBFE4",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                          "aws:cdk:cloudformation:props": {
+                            "action": "lambda:InvokeFunction",
+                            "functionName": {
+                              "Fn::GetAtt": [
+                                "clearlambdastoragehandlerE004A4A9",
+                                "Arn"
+                              ]
+                            },
+                            "principal": "events.amazonaws.com",
+                            "sourceArn": {
+                              "Fn::GetAtt": [
+                                "clearlambdastorageschedulerule1959DFDE",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_events.Rule",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "CDKMetadata": {
+                    "id": "CDKMetadata",
+                    "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/CDKMetadata",
+                    "children": {
+                      "Default": {
+                        "id": "Default",
+                        "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/CDKMetadata/Default",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.54.0"
+                        }
+                      },
+                      "Condition": {
+                        "id": "Condition",
+                        "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/CDKMetadata/Condition",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnCondition",
+                          "version": "2.54.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.1.202"
+                    }
+                  },
+                  "BootstrapVersion": {
+                    "id": "BootstrapVersion",
+                    "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/BootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.54.0"
+                    }
+                  },
+                  "CheckBootstrapVersion": {
+                    "id": "CheckBootstrapVersion",
+                    "path": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/CheckBootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnRule",
+                      "version": "2.54.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Stack",
+                  "version": "2.54.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Stage",
+              "version": "2.54.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "clearlambdastoragepipelinestack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "clearlambdastoragepipelinestack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.54.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "clearlambdastoragepipelinestack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.54.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.202"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "clearlambdastoragepipelinestack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.54.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "clearlambdastoragepipelinestack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.54.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.54.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.202"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.54.0"
+    }
+  }
+}

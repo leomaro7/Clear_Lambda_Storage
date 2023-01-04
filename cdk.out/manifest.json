@@ -1,0 +1,209 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "assembly-clearlambdastoragepipelinestack-deploy": {
+      "type": "cdk:cloud-assembly",
+      "properties": {
+        "directoryName": "assembly-clearlambdastoragepipelinestack-deploy",
+        "displayName": "clearlambdastoragepipelinestack/deploy"
+      }
+    },
+    "clearlambdastoragepipelinestack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "clearlambdastoragepipelinestack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "clearlambdastoragepipelinestack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "clearlambdastoragepipelinestack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/55837b31bfba5a104302afa6e61851beeef4a5dca4050f702d00444798314f29.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "clearlambdastoragepipelinestack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "clearlambdastoragepipelinestack.assets"
+      ],
+      "metadata": {
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_repo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragerepoAEBF3940"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_repo/clearlambdastoragepipelinestackclearlambdastoragepipelinePipeline625A2C11EventRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragerepoclearlambdastoragepipelinestackclearlambdastoragepipelinePipeline625A2C11EventRule629EDA5F"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/ArtifactsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineArtifactsBucket959FD90A"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/ArtifactsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineArtifactsBucketPolicy4AF28434"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineRoleBC418FD5"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineRoleDefaultPolicy0ACF5C5A"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipeline69AB9E8B"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source/CodeCommit/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineSourceCodeCommitCodePipelineActionRole3D0C9187"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyA9586611"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineEventsRole09F1581E"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineEventsRoleDefaultPolicy54BDAB44"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProjectRoleB0616F93"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProjectRoleDefaultPolicy1CD48605"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Pipeline/Build/synth/CdkBuildProject/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelinePipelineBuildsynthCdkBuildProject55C9F7B9"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/CodeBuildActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelineCodeBuildActionRole46830640"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/CodeBuildActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelineCodeBuildActionRoleDefaultPolicyC561E289"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelineUpdatePipelineSelfMutationRole57753694"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelineUpdatePipelineSelfMutationRoleDefaultPolicy8E6AADDE"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/UpdatePipeline/SelfMutation/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelineUpdatePipelineSelfMutation48C8BC84"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelineAssetsFileRoleA0B3F9E0"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelineAssetsFileRoleDefaultPolicyBB38579F"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/clear_lambda_storage_pipeline/Assets/FileAsset1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragepipelineAssetsFileAsset13CA072FD"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "clearlambdastoragepipelinestack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

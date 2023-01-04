@@ -1,0 +1,95 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E.template.json",
+        "validateOnSynth": true,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/444fc1f0d23e864b3f974cf2cbe5837c48a7b94f4f2cfc5cf8148d66873015a1.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "deploy-clearlambdastoragestack"
+      },
+      "dependencies": [
+        "clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E.assets"
+      ],
+      "metadata": {
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragehandlerServiceRole074CAA48"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragehandlerServiceRoleDefaultPolicyBCFC6CBC"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragehandlerE004A4A9"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_schedulerule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastorageschedulerule1959DFDE"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/clear_lambda_storage_schedulerule/AllowEventRuleclearlambdastoragepipelinestackdeployclearlambdastoragestackclearlambdastoragehandlerDBBCBFE4": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "clearlambdastoragescheduleruleAllowEventRuleclearlambdastoragepipelinestackdeployclearlambdastoragestackclearlambdastoragehandlerDBBCBFE468B2CAE6"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/clearlambdastoragepipelinestack/deploy/clearlambdastoragestack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "clearlambdastoragepipelinestack/deploy/clearlambdastoragestack"
+    }
+  }
+}

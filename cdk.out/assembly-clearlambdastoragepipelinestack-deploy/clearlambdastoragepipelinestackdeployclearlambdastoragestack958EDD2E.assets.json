@@ -1,0 +1,32 @@
+{
+  "version": "22.0.0",
+  "files": {
+    "4a99c2104b13947a079b7eff51ead09332039b29440e3fce11193fda4c2fb763": {
+      "source": {
+        "path": "../asset.4a99c2104b13947a079b7eff51ead09332039b29440e3fce11193fda4c2fb763",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "4a99c2104b13947a079b7eff51ead09332039b29440e3fce11193fda4c2fb763.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "444fc1f0d23e864b3f974cf2cbe5837c48a7b94f4f2cfc5cf8148d66873015a1": {
+      "source": {
+        "path": "clearlambdastoragepipelinestackdeployclearlambdastoragestack958EDD2E.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "444fc1f0d23e864b3f974cf2cbe5837c48a7b94f4f2cfc5cf8148d66873015a1.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

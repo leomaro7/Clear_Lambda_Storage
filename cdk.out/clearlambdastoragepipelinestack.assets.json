@@ -1,0 +1,19 @@
+{
+  "version": "22.0.0",
+  "files": {
+    "55837b31bfba5a104302afa6e61851beeef4a5dca4050f702d00444798314f29": {
+      "source": {
+        "path": "clearlambdastoragepipelinestack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "55837b31bfba5a104302afa6e61851beeef4a5dca4050f702d00444798314f29.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
